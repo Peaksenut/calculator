@@ -2,23 +2,21 @@
   font-size: 50px;
   border-radius: 15px;
   color: #222222;
-  font-family: Monospace;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   box-sizing: border-box;
   margin: 0;
 }
 
 body {
   background-color: #5E454B;
-  align-items: center;
   display: flex;
   flex-direction: column;
   height: 100vh;
-  justify-content: center;
 }
 
 calculator {
   background-color: #474E68;
-  border: 5px solid #222222;
+  border: 5px solid #272a36;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -28,32 +26,26 @@ calculator {
   width: 480px;
 }
 
-p {
-  font-size: 10px;
-  align-self: center;
-  margin-bottom: 15px;
-}
-
 #display-holder {
-  align-items: flex-end;
   display: flex;
-  border: 3px solid #222222;
+  border: 3px solid #272a36;
   background-color: #6B728E;
   flex-direction: column;
-  justify-content: center;
   padding: 10px;
   flex: 1;
-  text-align: center;
+  text-align: end;
   margin-bottom: 30px;
 }
 
 #display {
-  height: 55px;
-  
+  word-wrap: break-word;
+  min-height: 55px;
+  width: 400px;
 }
 
 #answer-display {
-  height: 25px;
+  min-height: 25px;
+  font-size: 20px;
 }
 
 .button-holder {
@@ -63,7 +55,7 @@ p {
 .btn {
   flex: 1;
   background: #6B728E;
-  border: 5px solid #222222;
+  border: 3px solid #272a36;
   margin: 10px;
   padding: 10px;
   font-size: 40px;
@@ -73,6 +65,7 @@ p {
   background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
 }
 
+/* #clear, #delete { */
 #clear {
   align-self: flex-start;
   background-color: #B25068;
@@ -81,8 +74,13 @@ p {
   font-size: 35px;
 }
 
+/* #delete {
+  background-color: #b6687c;
+} */
+
 footer {
   font-size: 20px;
   margin:auto ;
   margin-bottom: 20px;
+  font-weight: bold;
 }
