@@ -1,5 +1,6 @@
 const buttons = document.querySelectorAll('.btn');
-const equals = document.querySelector('#equals');
+const clearBtn = document.querySelector('#clear');
+const equalBtn = document.querySelector('#equals');
 let answerDisplay = document.querySelector('#answer-display');
 let display = document.querySelector('#display');
 let toDisplay = ''
@@ -19,9 +20,14 @@ let currentOperator = '';
 let number= '';
 let ab = [];
 
+let isEquals = false;
+
 displayOperation();
 compute();
 clear();
+
+clearBtn.addEventListener('click', clear);
+equalBtn.addEventListener('click', displayAnswer);
 
 
 function add(a, b) {
@@ -56,32 +62,45 @@ function del(str, n = 1) {
 
 
 function clear() {
-  const clearBtn = document.querySelector('#clear');
+  isStart = true;
+  isMinus = false;
+  isPlus = false;
+  operatorCount = 0;
 
-  clearBtn.addEventListener('click', () => {
-    isStart = true;
-    isMinus = false;
-    isPlus = false;
-    operatorCount = 0;
+  isNegativeNumber = false;
+  isDigit = false;
+  currentAnswer = 0;
+  currentNumber = 0;
+  currentOperator = '';
+  number = ''
+  ab = [];
 
-    isNegativeNumber = false;
-    isDigit = false;
-    currentAnswer = 0;
-    currentNumber = 0;
-    currentOperator = '';
-    number = ''
-    ab = [];
+  isEquals = false;
 
-    toDisplay = '';
-    display.innerText = '';
-    answerDisplay.innerText = '';
-  })
+  toDisplay = '';
+  display.innerText = '';
+  answerDisplay.innerText = '';
 }
 
 
-function del() {
-
+function displayAnswer() {
+  if (ab.length > 0 && isDigit) {
+    let answer = convertToNum(answerDisplay.innerText);
+    clear();
+    isDigit = true;
+    isStart = false;
+    isEquals = true;
+    if (answer < 0) isNegativeNumber = true;
+    ab[0] = answer;
+    toDisplay += answer;
+    display.innerText = answer;
+  }
 }
+
+
+// function del() {
+
+// }
 
 
 function compute() {
@@ -90,7 +109,7 @@ function compute() {
       isNegativeNumber = true;
     } 
 
-    if (btn.className === 'btn digit') {
+    if (btn.className === 'btn digit' && !isEquals) {
       isDigit = true;
       number += btn.innerText;
       currentNumber = convertToNum(number);
@@ -105,6 +124,8 @@ function compute() {
     }
 
     if (btn.className === 'btn operators') {
+      isEquals = false;
+
       if (btn.id === 'plus') currentOperator = add
       if (btn.id === 'minus' && isDigit) currentOperator = subtract;
       if (btn.id === 'multiply') currentOperator = multiply;
@@ -135,7 +156,7 @@ function compute() {
       currentNumber = 0;
     }
 
-    if (ab.length === 2) {
+    if (ab.length === 2 && !isEquals) {
       currentAnswer = operate(currentOperator, ab[0], ab[1]);
       answerDisplay.innerText = currentAnswer;
     }
@@ -150,7 +171,7 @@ function displayOperation() {
       if (btn.id === '' || btn.id === 'minus' && !isMinus) {
         isStart = false;
         isMinus = false;
-        toDisplay += `${btn.innerText}`;
+        toDisplay += btn.innerText;
         if (btn.id === 'minus') {
           isStart = true;
           isMinus = true;
@@ -159,9 +180,16 @@ function displayOperation() {
 
     } else { //can enter operators and the other numbers
       if (btn.id === ''){ //if btn is digits, add toDisplay
-        isMinus = false;
-        operatorCount = 0;
-        toDisplay += `${btn.innerText}`;
+          isMinus = false;
+          operatorCount = 0;
+        
+        if (isEquals) {
+          clear();
+          isStart = false;
+          toDisplay += btn.innerText;
+        } else {
+          toDisplay += btn.innerText;
+        }
       } 
 
       //for changing operators
