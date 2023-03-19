@@ -11,7 +11,7 @@ let isFloat = false;
 let expression = ''
 
 //compute
-let currentAnswer = 0;
+let currentAnswer = '';
 let currentOperator = '';
 let expr = [];
 let fAnswer = 0;
@@ -51,7 +51,7 @@ function deleteOperator(str, n = 1) {
 
 
 function clear() {
-  currentAnswer = 0;
+  currentAnswer = '';
   operatorCount = 0;
   currentOperator = '';
   isNum = false;
@@ -65,7 +65,11 @@ function clear() {
 
 
 function displayAnswer() {
-  
+  let theAnswer = currentAnswer;
+  clear();
+  expression += theAnswer;
+  isNum = true;
+  if (expression.includes('.')) isFloat = true;
 }
 
 
@@ -90,12 +94,15 @@ function compute() {
         fAnswer = currentAnswer;
       }
 
+      if (expr[len] === '0' && currentOperator === divide) {
+        clear();
+        display.innerText = 'HAHAHAHAHHAHAAHAHAAHAHAHHAHAAAHHA'
+        answerDisplay.innerText = 'HAHAHAAHHAAHAHAHHAAHAHAHHAHA'
+        return;
+      }
+
       if (!isNaN(expr[len]) && len > 1) {
         currentAnswer = operate(currentOperator, Number(fAnswer), Number(expr[len]));
-        console.log(currentOperator, Number(fAnswer), Number(expr[len]))
-        // if(currentAnswer) {
-        //   answerDisplay.innerText = "HELLO!"
-        // }
       }
 
       answerDisplay.innerText = currentAnswer;
@@ -192,7 +199,6 @@ function deleteChar() {
       if (isNaN(newLast) && isNaN(secLast) && newLast != '.') { //two operators
         isNum = false;
         operatorCount = 2;
-        console.log(newLast)
       } else if (isNaN(newLast) && newLast != '.') { //one operator
         isNum = false;
         operatorCount = 1;
@@ -215,7 +221,6 @@ function deleteChar() {
     }
 
     if (arrExpr.length >= 2 && arrExpr[arrExpr.length -2].includes('.')) { //floating num
-      console.log(arrExpr)
       isFloat = true;
     }
   }
