@@ -3,7 +3,6 @@ const clearBtn = document.querySelector('#clear');
 const equalBtn = document.querySelector('#equals');
 let answerDisplay = document.querySelector('#answer-display');
 let display = document.querySelector('#display');
-const digits = document.querySelectorAll('.btn .digit');
 
 //display
 let operatorCount = 0;
@@ -20,7 +19,7 @@ let fAnswer = 0;
 let isEquals = false;
 
 clearBtn.addEventListener('click', clear);
-// equalBtn.addEventListener('click', displayAnswer);
+equalBtn.addEventListener('click', displayAnswer);
 
 displayOperation();
 compute();
@@ -94,11 +93,12 @@ function compute() {
       if (!isNaN(expr[len]) && len > 1) {
         currentAnswer = operate(currentOperator, Number(fAnswer), Number(expr[len]));
         console.log(currentOperator, Number(fAnswer), Number(expr[len]))
-        answerDisplay.innerText = currentAnswer;
-        if(currentAnswer === Infinity) {
-          answerDisplay.innerText = "HELLO!"
-        }
+        // if(currentAnswer) {
+        //   answerDisplay.innerText = "HELLO!"
+        // }
       }
+
+      answerDisplay.innerText = currentAnswer;
     }
   })})
   
@@ -176,10 +176,59 @@ function displayOperation() {
 
 //format expression, convert the element if element is a number
 //display the formatted expression using join
+
 function toArray(expression) {
   return expression.match(/(?:(?<![\d.])-)?\d+(?:\.\d+)?|[÷×+-]/g);
 }
 
 function deleteChar() {
+  let lastChar = expression[expression.length - 1];
+  let newLast = expression[expression.length - 2];
+  let secLast = expression[expression.length - 3];
+  let arrExpr = toArray(expression);
+
+  if (!isNaN(lastChar)) { //char to delete is a number
+    if (newLast) {
+      if (isNaN(newLast) && isNaN(secLast) && newLast != '.') { //two operators
+        isNum = false;
+        operatorCount = 2;
+        console.log(newLast)
+      } else if (isNaN(newLast) && newLast != '.') { //one operator
+        isNum = false;
+        operatorCount = 1;
+      }
+    }
+
+    if (arrExpr[arrExpr.length -1].includes('.')) { //floating num
+      isFloat = true;
+    }
+  }
+
+  if (isNaN(lastChar)) { //char to delete is operator
+    if (isNaN(newLast) && newLast != '.') { //another operator
+      operatorCount = 1;
+    }
+
+    if (!isNaN(newLast)) { //a number
+      isNum = true;
+      operatorCount = 0;
+    }
+
+    if (arrExpr.length >= 2 && arrExpr[arrExpr.length -2].includes('.')) { //floating num
+      console.log(arrExpr)
+      isFloat = true;
+    }
+  }
+
+  if (lastChar === '.') {
+    isFloat = false;
+  }
+
+  if (!newLast) { //empty
+    isNum = false;
+    operatorCount = 0;
+  }
+
+  currentAnswer = '';
   expression = expression.slice(0, -1);
 }
