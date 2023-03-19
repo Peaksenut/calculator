@@ -65,8 +65,7 @@ calculator {
   background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
 }
 
-/* #clear, #delete { */
-#clear {
+#clear, #delete {
   align-self: flex-start;
   background-color: #B25068;
   border-radius: 100px;
@@ -74,9 +73,9 @@ calculator {
   font-size: 35px;
 }
 
-/* #delete {
+#delete {
   background-color: #b6687c;
-} */
+}
 
 footer {
   font-size: 20px;
