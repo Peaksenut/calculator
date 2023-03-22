@@ -71,7 +71,7 @@ function displayAnswer() {
     isNum = true;
     if (!Number.isInteger(theAnswer)) {
       isFloat = true;
-      theAnswer = Math.round(Number(theAnswer) * 100) / 100;
+      theAnswer = Math.round(Number(theAnswer) * 1000) / 1000;
     }
 
     expression += theAnswer;
