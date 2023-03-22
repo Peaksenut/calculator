@@ -65,11 +65,17 @@ function clear() {
 
 
 function displayAnswer() {
-  let theAnswer = currentAnswer;
-  clear();
-  expression += theAnswer;
-  isNum = true;
-  if (expression.includes('.')) isFloat = true;
+  if (expr.length >= 3) {
+    let theAnswer = currentAnswer;
+    clear();
+    isNum = true;
+    if (!Number.isInteger(theAnswer)) {
+      isFloat = true;
+      theAnswer = Math.round(Number(theAnswer) * 100) / 100;
+    }
+
+    expression += theAnswer;
+  }
 }
 
 
